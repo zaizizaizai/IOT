@@ -26,4 +26,4 @@ http.createServer((req,res) => {
 
 }).listen(3000);
 
-console.log('[Server Info] Satrt server at http://localhost:3000/');
+console.log('[Server Info] Start server at http://localhost:3000/');

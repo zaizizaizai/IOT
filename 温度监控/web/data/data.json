@@ -1,0 +1,7 @@
+{
+    "lists": [{
+        "wet": "number",
+        "temp": "number",
+        "time": "string"
+    }]
+}
