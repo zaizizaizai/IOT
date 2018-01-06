@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html class="ui-mobile">
+	<head>
+		<title>Web</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+		<link rel="stylesheet" href="../jquery/jquery.mobile-1.4.3.min.css" />
+		<script src="../jquery/jquery.js"></script>
+		<script src="../jquery/jquery.mobile-1.4.3.min.js"></script>
+		<script src="./run.js"></script>
+	</head>
+	<body>
+
+		<!-- 第一页 -->
+		<div data-role="page" id="page1">
+			<div data-role="header">
+				<h1>物联网平台</h1>
+			</div><!--头部-->
+			<div role="main" class="ui-content">
+				<p id="info">长江大学信工卓越</p>
+				<Iframe src="./web_api.html" width="200" height="100" scrolling="no" frameborder="0"></iframe>
+				<p id="led_1">
+					<label for="led">Led1开关</label>
+					<select id="led" name="led_1" data-role="slider">
+						<option value="{led_1_0}">关</option>
+						<option value="{led_1_1}">开</option>
+					</select>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
