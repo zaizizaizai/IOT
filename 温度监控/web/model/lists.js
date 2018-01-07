@@ -18,5 +18,12 @@ module.exports = function(){
         return data.lists[data.lists.length - 1];
     }
 
+    //添加数据
+    function changeList(wet, temp, time){
+        data.lists[data.lists.length - 1].wet = wet;
+        data.lists[data.lists.length - 1].temp = temp;
+        data.lists[data.lists.length - 1].time = time;
+    }
+
     return lists;
 };

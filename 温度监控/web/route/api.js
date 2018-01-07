@@ -6,6 +6,7 @@
  var url = require('url');
  var querystring = require('querystring');
  var lists = require('../model/lists')();
+ var sd = require('silly-datatime');
 
  var getHandler = {};
  var postHandler = {};
@@ -44,13 +45,34 @@ postHandler['/'] = function(res, data) {
 
  //get请求
  function get(req, res){
-     var reqUrl = url.parse(req.url);
-     //TODO:把reqUrl解析，获取发送来的温度等数据，存入data
-     if(typeof getHandler[reqUrl.pathname] === "function"){
-         getHandler[reqUrl.pathname](req, res);
-     } else {
-         getHandler["/404"](req, res);
-     }
+    var reqUrl = url.parse(req.url);
+    //TODO:把reqUrl解析，获取发送来的温度等数据，存入data
+    var param = reqUrl.query;
+    if(param){
+        //解析参数为arduino的值
+        var arduino = url.parse(decodeURI(req.url),true).query.arduino;
+        if(arduino == 'yes'){
+            //解析参数为wet的值
+            var wet = url.parse(decodeURI(req.url),true).query.wet;
+            if(wet)
+                console.log(wet);
+            //解析参数为temp的值
+            var temp = url.parse(decodeURI(req.url),true).query.temp;
+            if(temp)
+                console.log(temp);
+            //获取当前时间
+            var time = sd.format(new Date(), 'YYYY-MM-DD HH:mm');
+
+            //把数据写入json格式的data中
+            lists.changeList(wet, temp, time);
+        }
+    }
+
+    if(typeof getHandler[reqUrl.pathname] === "function"){
+        getHandler[reqUrl.pathname](req, res);
+    } else {
+        getHandler["/404"](req, res);
+    }
  }
 
  // post请求（示例）
