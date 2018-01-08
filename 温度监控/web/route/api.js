@@ -5,8 +5,9 @@
  var fs = require('fs');
  var url = require('url');
  var querystring = require('querystring');
+ var sd = require('silly-datetime');
  var lists = require('../model/lists')();
- var sd = require('silly-datatime');
+
 
  var getHandler = {};
  var postHandler = {};
@@ -27,7 +28,7 @@
             console.log(err);
         } else {
             //动态渲染模板
-            res.end(data.toString.replace('{{listMenu}}', listMenu));
+            res.end(data.toString().replace('{{listMenu}}', listMenu));
         }
     });
  }
@@ -46,7 +47,19 @@ postHandler['/'] = function(res, data) {
  //get请求
  function get(req, res){
     var reqUrl = url.parse(req.url);
-    //TODO:把reqUrl解析，获取发送来的温度等数据，存入data
+
+    if(typeof getHandler[reqUrl.pathname] === "function"){
+        getHandler[reqUrl.pathname](req, res);
+    } else {
+        getHandler["/404"](req, res);
+    }
+ }
+
+ // post请求（示例）
+function post(req, res) {
+    var reqUrl = url.parse(req.url);
+
+    //FIXME:把reqUrl解析，获取发送来的温度等数据，存入data
     var param = reqUrl.query;
     if(param){
         //解析参数为arduino的值
@@ -68,16 +81,6 @@ postHandler['/'] = function(res, data) {
         }
     }
 
-    if(typeof getHandler[reqUrl.pathname] === "function"){
-        getHandler[reqUrl.pathname](req, res);
-    } else {
-        getHandler["/404"](req, res);
-    }
- }
-
- // post请求（示例）
-function post(req, res) {
-    var reqUrl = url.parse(req.url);
     if (typeof postHandler[reqUrl.pathname] === "function") {
     var postData = "";
     req.on('data', (data) => {

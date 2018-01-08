@@ -1,3 +1,7 @@
+/**
+ * get 将你要获取的参数传到后台，让后台返回，页面跳转
+ * post 将你要处理的参数传到后台，让后台处理，页面跳转
+ */
 var http = require('http');
 var url = require('url');
 var api = require('./route/api');
