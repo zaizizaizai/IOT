@@ -17,9 +17,9 @@
     var listMenu ="";
     //把wet、temp、time拼接为首页数据
     var list = lists.getLastList();
-    listMenu += '<table class="list" border="1"><tr><th>湿度</th><th id="wet">' + list['wet'] +
-                '</th></tr><tr><th>温度</th><th id="temp">' + list['temp'] +
-                '</th></tr><tr><th>时间</th><th id="time">' + list['time'] +
+    listMenu += '<table class="list" border="1"><tr><th>湿度</th><th id="wet">' + list.wet +
+                '</th></tr><tr><th>温度</th><th id="temp">' + list.temp +
+                '</th></tr><tr><th>时间</th><th id="time">' + list.time +
                 '</th></tr></table>';
 
     res.writeHead(200, {"Content-Type": "text/html"});
@@ -48,17 +48,6 @@ postHandler['/'] = function(res, data) {
  function get(req, res){
     var reqUrl = url.parse(req.url);
 
-    if(typeof getHandler[reqUrl.pathname] === "function"){
-        getHandler[reqUrl.pathname](req, res);
-    } else {
-        getHandler["/404"](req, res);
-    }
- }
-
- // post请求（示例）
-function post(req, res) {
-    var reqUrl = url.parse(req.url);
-
     //FIXME:把reqUrl解析，获取发送来的温度等数据，存入data
     var param = reqUrl.query;
     if(param){
@@ -80,6 +69,17 @@ function post(req, res) {
             lists.changeList(wet, temp, time);
         }
     }
+
+    if(typeof getHandler[reqUrl.pathname] === "function"){
+        getHandler[reqUrl.pathname](req, res);
+    } else {
+        getHandler["/404"](req, res);
+    }
+ }
+
+ // post请求（示例）
+function post(req, res) {
+    var reqUrl = url.parse(req.url);
 
     if (typeof postHandler[reqUrl.pathname] === "function") {
     var postData = "";
